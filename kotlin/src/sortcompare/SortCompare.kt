@@ -1,39 +1,58 @@
 package sortcompare
 
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
+import java.util.*
 
 class SortCompare {
 
     fun init() {
-        val unsortedList = ArrayList<Int>()
-        val file = File("../random_numbers.txt")
-        try {
-            val br = BufferedReader(FileReader(file))
-            var st = br.readLine()
-            while(!st.isNullOrEmpty()) {
-                unsortedList.add(Integer.valueOf(st))
-                st = br.readLine()
-            }
-        }
-        catch(e: Exception) {}
+        val sublistMin = 20
 
-        var startingTime: Long = 0L
-        var finishingTime: Long = 0L
-        var totalTime: Float = 0F
+        val randonNumberQuanity = 5000
+
+        print("Generating $randonNumberQuanity random numbers...")
+        val unsortedList = ArrayList<Int>()
+        for(i in 0 until randonNumberQuanity) {
+            unsortedList.add( (0..randonNumberQuanity).random())
+        }
+        println("Done! \n")
+
+        var startingTime: Long
+        var finishingTime: Long
+        var totalTime: Long
 
         //Quick Sort
+        println("QuickSorting list of size $randonNumberQuanity\n")
 
+        startingTime = System.currentTimeMillis()
+        println("First Pivot: ${QuickSort.sort(unsortedList, QuickSort.Companion.PivotType.FIRST).subList(0,sublistMin)}")
+        finishingTime = System.currentTimeMillis()
+        totalTime = finishingTime - startingTime
+        println("Time to complete ${totalTime.toFloat()/1000} seconds\n")
+
+        startingTime = System.currentTimeMillis()
+        println("Last Pivot: ${QuickSort.sort(unsortedList, QuickSort.Companion.PivotType.LAST).subList(0,sublistMin)}")
+        finishingTime = System.currentTimeMillis()
+        totalTime = finishingTime - startingTime
+        println("Time to complete ${totalTime.toFloat()/1000} seconds\n")
+
+        startingTime = System.currentTimeMillis()
+        println("Random Pivot: ${QuickSort.sort(unsortedList, QuickSort.Companion.PivotType.RANDOM).subList(0,sublistMin)}")
+        finishingTime = System.currentTimeMillis()
+        totalTime = finishingTime - startingTime
+        println("Time to complete ${totalTime.toFloat()/1000} seconds\n")
+
+        println("")
 
         //Selection Sort
         startingTime = System.currentTimeMillis()
-        print("Selection Sorting...")
-        println(SelectionSort().sort(unsortedList))
-        println("DONE!")
+        println("SelectionSorting list of size $randonNumberQuanity\n")
+        println(SelectionSort.sort(unsortedList).subList(0,sublistMin))
         finishingTime = System.currentTimeMillis()
-        totalTime = (finishingTime.toFloat() - startingTime.toFloat()) / 1000
-        println("Time to complete: $totalTime seconds")
+        totalTime = finishingTime - startingTime
+        println("Time to complete ${totalTime.toFloat()/1000} seconds\n")
     }
+
+    fun IntRange.random() =
+            Random().nextInt((endInclusive + 1) - start) +  start
 
 }

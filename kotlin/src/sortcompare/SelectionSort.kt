@@ -4,10 +4,11 @@ import java.util.*
 
 class SelectionSort {
 
-    fun sort(unsortedList: ArrayList<Int>): ArrayList<Int> {
-        val sortedList: ArrayList<Int> = ArrayList()
-        val originalSize = unsortedList.size - 1
-            for(i in 0..originalSize) {
+    companion object {
+        fun sort(unsortedList: ArrayList<Int>): ArrayList<Int> {
+            val sortedList: ArrayList<Int> = ArrayList()
+            val originalSize = unsortedList.size
+            for(i in 1..originalSize) {
                 val smallestIndex = findSmallestIndex(unsortedList)
                 val smallest = unsortedList.removeAt(smallestIndex)
                 sortedList.add(smallest)
@@ -15,17 +16,16 @@ class SelectionSort {
             return sortedList
         }
 
-    fun findSmallestIndex(unsortedList: ArrayList<Int>): Int {
-        var smallest: Int = 0
-        var smallestIndex: Int = 0
-        unsortedList.forEachIndexed { index, i ->
-            run {
+        fun findSmallestIndex(unsortedList: ArrayList<Int>): Int {
+            var smallest = unsortedList[0]
+            var smallestIndex = 0
+            unsortedList.forEachIndexed { index, i ->
                 if (i < smallest) {
                     smallest = i
                     smallestIndex = index
                 }
             }
+            return smallestIndex
         }
-        return smallestIndex
     }
 }
